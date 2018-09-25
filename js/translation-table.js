@@ -48,10 +48,10 @@ var translation_table = {
 		"Help": "Help",
 		"Show Tooltips": "Show Tooltips",
 		"Custom then hit enter": "Custom then hit enter",
-		"Reroll max will sum the final total<br/> (Shadowrun style)": "",
-		"Reroll 1s will only reroll once": "",
-		"Rolls can never be below 1": "",
-		"Sum will be clamped to 1": "",
+		"Reroll max will sum the final total<br/> (Shadowrun style)": "Reroll max will sum the final total<br/> (Shadowrun style)",
+		"Reroll 1s will only reroll once": "Reroll 1s will only reroll once",
+		"Rolls can never be below 1": "Rolls can never be below 1",
+		"Sum will be clamped to 1": "Sum will be clamped to 1",
 		"Reroll ": "Reroll ",
 		"s": "s",
 		" To Each Roll": " To Each Roll",
@@ -86,7 +86,8 @@ var translation_table = {
 		"The first 5 presets are available as shortcut if your launcher supports it on Android. One-click throw for your damage roll !": "The first 5 presets are available as shortcut if your launcher supports it on Android. One-click throw for your damage roll !",
 		"Pre-Drop High": "",
 		"Pre-Drop Low": "",
-		"Delete Preset ?": "Delete Preset ?"
+		"Delete Preset ?": "Delete Preset ?",
+		"Home":"Home"
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -175,7 +176,8 @@ var translation_table = {
 		"The first 5 presets are available as shortcut if your launcher supports it on Android. One-click throw for your damage roll !": "Les 5 premiers raccourcis dans votre liste sont aussi disponible comme raccourcis sur votre écran d'acceuil Android si votre téléphone supporte cette fonctionnalité.",
 		"Pre-Drop High": "",
 		"Pre-Drop Low": "",
-		"Delete Preset ?": "Supprimer le raccourci"
+		"Delete Preset ?": "Supprimer le raccourci",
+		"Home":"Accueil"
 	},
 	"jp": {
 		"Settings":"設定",
@@ -245,7 +247,7 @@ var translation_table = {
 		"Erase All History": "履歴を削除",
 		"Presets Management": "プリセット管理",
 		"You have no Preset": "プリセット空",
-		"Without option page, rolls will be without bonus or re-roll": "a",
+		"Without option page, rolls will be without bonus or re-roll": "オプションページないともう一度振るオプションなど使えない",
 		"Multiple Roll": "いろいろなサイコロ",
 		"Really delete ?": "確認",
 		"Above Threshold of ": "",
@@ -260,11 +262,12 @@ var translation_table = {
 		"and": "と",
 		"Remarks": "ご覧ください",
 		"Check the setting page for customization.": "設定のページ必ず見てください。",
-		"All Right Reserved.": "All Right Reserved.",
-		"Tap on the blue tooltips for information about how certain values are calculated.": "Taper sur les infobulles pour plus d'information sur comment certaines valeurs sont calculées",
-		"The randomizer is a custom Mersenne Twister Pseudo-Number Generator initialized with Date().getTime().　This is one of the best method to get truly random number on a computer.": "Le générateur de nombre aléatoire et un Mersenne Twister initializer au lancement de l'application en utilisant Date().getTime().　Il s'agit d'une des meilleures façon de garantir des nombres vraiment aléatoire en informatique.",
-		"The first 5 presets are available as shortcut if your launcher supports it on Android. One-click throw for your damage roll !": "Les 5 premiers raccourcis dans votre liste sont aussi disponible comme raccourcis sur votre écran d'acceuil Android si votre téléphone supporte les raccourcis sur l'écran d'acceuil.",
-		"Delete Preset ?": "プリセット削除？"
+		"All Right Reserved.": "全著作権所有",
+		"Tap on the blue tooltips for information about how certain values are calculated.": "ヒントをタップしてください。",
+		"The randomizer is a custom Mersenne Twister Pseudo-Number Generator initialized with Date().getTime().　This is one of the best method to get truly random number on a computer.": "",
+		"The first 5 presets are available as shortcut if your launcher supports it on Android. One-click throw for your damage roll !": "新しい端末持っている方はアンドロイドでホーム画面でプリセット使えます。",
+		"Delete Preset ?": "プリセット削除？",
+		"Home":"ホーム"
 	}
 	
 };
