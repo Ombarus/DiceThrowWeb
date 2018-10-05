@@ -139,6 +139,26 @@
 	height:20vw;
 	width:33%;
 }
+@media (min-width: 768px) {
+  .table-col {
+	background-image:url("");
+	background-size:100% 100%;
+	vertical-align:middle;
+	text-align:center;
+	height:10vw;
+	width:20%;
+  }
+}
+
+.tablet-only-c {
+	display: none;
+}
+@media (min-width: 768px) {
+  .tablet-only-c {
+    display: table-cell;
+	width:25%;
+  }
+}
 
 .force-height {
 	height:20vw;
@@ -151,6 +171,29 @@
 	-ms-transform: rotate(180deg);
 	-o-transform: rotate(180deg);
 	transform: rotate(180deg);
+}
+
+.ios .item-input-wrap .input-clear-button-dialog {
+    top: 13px;
+}
+
+.ios .input-clear-button-dialog:before {
+    width: 44px;
+    height: 26px;
+    margin-left: -13px;
+    margin-top: -13px;
+	left:50px;
+}
+
+.ios .input-clear-button-dialog:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: -13px;
+    top: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 #D2 {

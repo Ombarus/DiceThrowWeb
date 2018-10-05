@@ -647,15 +647,29 @@ function UpdateTheme() {
 	}
 }
 
-var initial_data = JSON.parse('{"version":9, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false}}');
+var initial_data = JSON.parse('{"version":10, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false}}');
 save_data = app.form.getFormData("save.json");
-if (save_data == null || save_data.version == undefined || save_data.version != initial_data.version)
+// APP HAS BEEN RELEASE. It is innacceptable to delete profile now !
+if (save_data == null || save_data.version == undefined || save_data.version < 9)
 {
 	save_data = initial_data;
 	app.form.storeFormData("save.json", initial_data);
 }
 else
 {
+	// porting profile to v10
+	if (save_data.version == 9) {
+		for (var i = 0; i < save_data.presets.length; i++) {
+			for (var j = 0; j < save_data.presets[i].roll_data.length; j++) {
+				save_data.presets[i].roll_data[j].results = [];
+			}
+		}
+	}
+	if (save_data.version < initial_data.version) {
+		save_data.version = initial_data.version;
+		app.form.storeFormData("save.json", save_data);
+		console.log(save_data);
+	}
 	save_data.current_roll = initial_data.current_roll;
 }
 
@@ -821,7 +835,11 @@ function callback_save_preset(name) {
 			// confirm dialog run async so I need to stop process here until dialog complete
 			ok = false;
 			app.dialog.confirm(existingpreset, GetLocalizedString('Overwrite ?'), function () {
-				save_data.presets[i].roll_data = JSON.parse(JSON.stringify(save_data.current_roll));
+				var tmp = JSON.parse(JSON.stringify(save_data.current_roll));
+				for (var j = 0; j < tmp.length; j++) {
+					tmp[j].results = []; // clean the results so we do not save them as preset.
+				}
+				save_data.presets[i].roll_data = tmp;
 				app.form.storeFormData("save.json", save_data);
 				UpdateAndroidShortcuts();
 			}, function() {
@@ -831,7 +849,11 @@ function callback_save_preset(name) {
 		}
 	}
 	if (ok == true) {
-		save_data.presets.push({"name":name, "roll_data":JSON.parse(JSON.stringify(save_data.current_roll))});
+		var tmp = JSON.parse(JSON.stringify(save_data.current_roll));
+		for (var j = 0; j < tmp.length; j++) {
+			tmp[j].results = []; // clean the results so we do not save them as preset.
+		}
+		save_data.presets.push({"name":name, "roll_data":tmp});
 		app.form.storeFormData("save.json", save_data);
 		UpdateAndroidShortcuts();
 	}
@@ -847,10 +869,12 @@ $$(document).on('page:beforein', function (e, page) {
 });
 
 $$(document).on('page:init', function (e, page) {
-	if (page.$el.attr("data-name") == "dicestats" && (page.$el.hasClass("page-next") || isFromIntent == true)) {
+	if (page.$el.attr("data-name") == "dicestats" && (page.$el.hasClass("page-next") || isFromIntent == true) && save_data.current_roll[0].results.length <= 0) {
 		DoRollFromData();
 	}
-	else if (save_data.current_roll[0].results != undefined && save_data.current_roll[0].results.length > 0) {
+	else if (
+		!(page.$el.attr("data-name") == "dicestats" && (page.$el.hasClass("page-next") || isFromIntent == true)) && 
+		save_data.current_roll[0].results != undefined && save_data.current_roll[0].results.length > 0) {
 		for (var i = 0; i < save_data.current_roll.length; i++) {
 			save_data.current_roll = JSON.parse('[{"roll_data":{}, "results":[]}]');
 		}
@@ -860,7 +884,7 @@ $$(document).on('page:init', function (e, page) {
 		app.dialog.create({
 			title: GetLocalizedString('Preset Name'),
 			text: '',
-			content: '<div class="dialog-input-field item-input"><div class="item-input-wrap"><input type="text" class="dialog-input input-focused input-with-value" placeholder="Unique Name" value="' + GetRollGeneratedName(save_data.current_roll) + '"><span class="input-clear-button"></span></div></div>',
+			content: '<div class="dialog-input-field item-input"><div class="item-input-wrap"><input type="text" class="dialog-input input-focused input-with-value" placeholder="Unique Name" value="' + GetRollGeneratedName(save_data.current_roll) + '" style="color:#757575;"><span class="input-clear-button input-clear-button-dialog"></span></div></div>',
 			buttons: [
 				{
 					text: app.params.dialog.buttonCancel,
@@ -1208,17 +1232,14 @@ if (document != undefined) {
 	
 	function ProcessHardwareBack() {
 		var opened_diag = $$(".dialog");
-		console.log("bleh");
 		if (opened_diag.length != 0) {
 			app.popup.close(opened_diag);
 		} else {
-			console.log("prev : " + mainView.router.previousRoute.url + ", cur : " + mainView.router.currentRoute.url);
 			if (mainView.router.currentRoute.url.includes("dicestats")) {
 				app.router.navigate("/first/");
 				mainView.router.clearPreviousHistory();
 			}
 			else if (!mainView.router.previousRoute.url.includes("index.html") && !mainView.router.currentRoute.url.includes("first")) {
-				console.log("router.back");
 				app.router.back("/first/");
 			}
 		}

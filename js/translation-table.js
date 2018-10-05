@@ -87,7 +87,9 @@ var translation_table = {
 		"Pre-Drop High": "",
 		"Pre-Drop Low": "",
 		"Delete Preset ?": "Delete Preset ?",
-		"Home":"Home"
+		"Home":"Home",
+		"More":"More",
+		"Back":"Back"
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -177,7 +179,9 @@ var translation_table = {
 		"Pre-Drop High": "",
 		"Pre-Drop Low": "",
 		"Delete Preset ?": "Supprimer le raccourci",
-		"Home":"Accueil"
+		"Home":"Accueil",
+		"More":"Plus",
+		"Back":"Retour"
 	},
 	"jp": {
 		"Settings":"設定",
@@ -267,7 +271,9 @@ var translation_table = {
 		"The randomizer is a custom Mersenne Twister Pseudo-Number Generator initialized with Date().getTime().　This is one of the best method to get truly random number on a computer.": "",
 		"The first 5 presets are available as shortcut if your launcher supports it on Android. One-click throw for your damage roll !": "新しい端末持っている方はアンドロイドでホーム画面でプリセット使えます。",
 		"Delete Preset ?": "プリセット削除？",
-		"Home":"ホーム"
+		"Home":"ホーム",
+		"More":"もっと",
+		"Back":"戻る"
 	}
 	
 };
