@@ -1045,6 +1045,7 @@ $$(document).on('page:init', function (e, page) {
 		if (val > 0)
 		{
 			save_data.current_roll[save_data.current_roll.length-1].roll_data.count = parseInt(val);
+			$$("input[name='dice-count-input']").blur();
 			app.router.navigate("/dicecountnext/");
 		}
 		else
@@ -1058,6 +1059,7 @@ $$(document).on('page:init', function (e, page) {
 		if (val > 0)
 		{
 			save_data.current_roll[save_data.current_roll.length-1].roll_data.dice = parseInt(val);
+			$$("input[name='dice-side-input']").blur();
 			app.router.navigate("/dicetypenext/");
 		}
 		else
