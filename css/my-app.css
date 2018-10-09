@@ -1,3 +1,9 @@
+html {
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+}
+
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;

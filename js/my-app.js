@@ -8,7 +8,10 @@ var app = new Framework7({
     panel: {
         swipe: "left",
 		leftBreakpoint: 768,
-    }
+    },
+	view: {
+		xhrCache:false
+	}
 });
 var mainView = app.views.create('.view-main');
 var $$ = Dom7;
@@ -85,8 +88,6 @@ function MatchWithPreset(roll_data) {
 }
 
 function ProcessClick(ev) {
-	console.log("ProcessClick");
-	console.log(ev);
 	var btn = $$(ev.target);
 	if (btn.hasClass("hback")) {
 		ProcessHardwareBack();
@@ -99,7 +100,6 @@ function ProcessClick(ev) {
 	if (btn.hasClass("dicecount"))
 	{
 		var val = btn.text();
-		console.log("DiceCount val = " + val);
 		save_data.current_roll[save_data.current_roll.length-1].roll_data.count = val;
 	}
 	if (btn.hasClass("doroll"))
@@ -236,24 +236,20 @@ function Roll(rolldata) {
 	for (i = 0; i < rolldata.count; i++)
 	{
 		var roll = MyRand(rolldata.dice);
-		console.log("MyRand results = " + roll);
 		
 		// reroll 1 (but only once)
-		console.log("rolldata.min = " + rolldata.min);
 		if (roll == 1 && rolldata.min == true)
 		{
 			roll = MyRand(rolldata.dice);
 		}
 		
 		finalroll = roll;
-		console.log("rolldata.max = " + rolldata.max);
 		while (rolldata.max == true && roll == rolldata.dice)
 		{
 			roll = Math.round((Math.random() * rolldata.dice)) + 1;
 			finalroll += roll;
 		}
 		finalroll += rolldata.bonus_dice;
-		console.log("final roll result = " + finalroll);
 		result.push(finalroll);
 	}
 	return result;
@@ -882,8 +878,6 @@ $$(document).on('page:beforein', function (e, page) {
 });
 
 $$(document).on('page:init', function (e, page) {
-	console.log("page:init");
-	console.log(page);
 	if (page.$el.attr("data-name") == "dicestats" && (page.$el.hasClass("page-next") || isFromIntent == true) && save_data.current_roll[0].results.length <= 0) {
 		DoRollFromData();
 	}
@@ -895,7 +889,7 @@ $$(document).on('page:init', function (e, page) {
 		}
 	}
 	isFromIntent = false;
-	$$('.open-prompt').off('click').on('click', function () {
+	function open_promp_click() {
 		app.dialog.create({
 			title: GetLocalizedString('Preset Name'),
 			text: '',
@@ -918,7 +912,8 @@ $$(document).on('page:init', function (e, page) {
 			},
 			destroyOnClose:true,
 		}).open()
-	});
+	}
+	$$('.open-prompt').off('click', open_promp_click).on('click', open_promp_click);
 	
 	// Update to html data must be done BEFORE registering to events or they won't work
 	if ($$("#preset-list").length != 0) {
@@ -930,34 +925,40 @@ $$(document).on('page:init', function (e, page) {
 	if ($$("#history-list").length != 0) {
 		UpdateHistoryList();
 	}
-	$$("#preset-sortable-list").off("sortable:sort").on("sortable:sort", PresetSortEvent);
 	
-	$$("input[name='first-page']").off("change").on("change", function(ev) {
+	$$("#preset-sortable-list").off("sortable:sort", PresetSortEvent).on("sortable:sort", PresetSortEvent);
+	
+	function first_page_change(ev){
 		save_data.settings.first_page = ev.target.value;
 		app.form.storeFormData("save.json", save_data);
-	});
-	$$("input[name='option-option-page']").off("change").on("change", function(ev) {
+	}
+	$$("input[name='first-page']").off("change", first_page_change).on("change", first_page_change );
+	function option_change(ev) {
 		var show_page = $$(ev.target).is(':checked');
 		save_data.settings.show_roll_options = show_page;
 		app.form.storeFormData("save.json", save_data);
-	});
-	$$("input[name='option-tooltips']").off("change").on("change", function(ev) {
+	}
+	$$("input[name='option-option-page']").off("change", option_change).on("change", option_change);
+	function option_tooltips(ev) {
 		var show_tooltips = $$(ev.target).is(':checked');
 		save_data.settings.show_tooltips = show_tooltips;
 		app.form.storeFormData("save.json", save_data);
 		UpdateTooltips();
-	});
-	$$("input[name='option-theme']").off("change").on("change", function(ev) {
+	}
+	$$("input[name='option-tooltips']").off("change", option_tooltips).on("change", option_tooltips);
+	function option_theme(ev) {
 		var dark_theme = $$(ev.target).is(':checked');
 		save_data.settings.dark_theme = dark_theme;
 		app.form.storeFormData("save.json", save_data);
 		UpdateTheme();
-	});
-	$$("input[name='option-sort']").off("change").on("change", function(ev) {
+	}
+	$$("input[name='option-theme']").off("change", option_theme).on("change", option_theme);
+	function option_sort(ev) {
 		var sort_res = $$(ev.target).is(':checked');
 		save_data.settings.sort_results = sort_res;
 		app.form.storeFormData("save.json", save_data);
-	});
+	}
+	$$("input[name='option-sort']").off("change", option_sort).on("change", option_sort);
 	
 	if ($$("input[name='dice-reroll-max']").length != 0) {
 		var input = $$("input[name='dice-reroll-max']");
@@ -983,32 +984,37 @@ $$(document).on('page:init', function (e, page) {
 			 }
 		}
 	}
-    $$('#threshold-slider').off('touchstart').on('touchstart', function(event) {
+	function disable_swipe(event) {
 		app.swiper.get($$('.tabs-swipeable-wrap')).allowTouchMove = false;
-	});
-	$$('#threshold-slider').off('touchend').on('touchend', function(event) {
+	}
+    $$('#threshold-slider').off('touchstart', disable_swipe).on('touchstart', disable_swipe);
+	function enable_swipe(event) {
 		app.swiper.get($$('.tabs-swipeable-wrap')).allowTouchMove = true;
-	});
-	$$('#threshold-slider').off('range:change').on('range:change', function(event, range) {
+	}
+	$$('#threshold-slider').off('touchend', enable_swipe).on('touchend', enable_swipe);
+	function threshold_range_change(event, range) {
 		$$("#stats-threshold-val").text(GetLocalizedString("Above Threshold of ") + range.value);
 		$$("#stats-threshold-count").text(GetThresholdCount(range.value));
-	});
-	$$('#dice-bonus-slider').off('range:change').on('range:change', function(event, range) {
+	}
+	$$('#threshold-slider').off('range:change', threshold_range_change).on('range:change', threshold_range_change);
+	function dice_range_change(event, range) {
 		var textval = "";
 		if (parseInt(range.value) >= 0) {
 			textval += "+";
 		}
 		textval += range.value + GetLocalizedString(" To Each Roll");
 		$$("#dice-bonus-label").text(textval);
-	});
-	$$('#roll-bonus-slider').off('range:change').on('range:change', function(event, range) {
+	}
+	$$('#dice-bonus-slider').off('range:change', dice_range_change).on('range:change', dice_range_change);
+	function roll_range_change(event, range) {
 		var textval = "";
 		if (parseInt(range.value) >= 0) {
 			textval += "+";
 		}
 		textval += range.value + GetLocalizedString(" To Final Sum");
 		$$("#roll-bonus-label").text(textval);
-	});
+	}
+	$$('#roll-bonus-slider').off('range:change', roll_range_change).on('range:change', roll_range_change);
 	
 	if ($$('#roll-drophigh-slider').length != 0) {
 		var dice_count = save_data.current_roll[save_data.current_roll.length-1].roll_data.count;
@@ -1021,18 +1027,20 @@ $$(document).on('page:init', function (e, page) {
 		$$("input[name='drophigh']")[0].max = dice_count;
 		$$("input[name='droplow']")[0].max = dice_count;
 	}
-	$$('#roll-drophigh-slider').off('range:change').on('range:change', function(event, range) {
+	function drop_high_range_change(event, range) {
 		var textval = "";
 		textval = GetLocalizedString("Drop ") + range.value + GetLocalizedString(" Highest Roll");
 		$$("#roll-drophigh-label").text(textval);
-	});
-	$$('#roll-droplow-slider').off('range:change').on('range:change', function(event, range) {
+	}
+	$$('#roll-drophigh-slider').off('range:change', drop_high_range_change).on('range:change', drop_high_range_change);
+	function drop_low_range_change(event, range) {
 		var textval = "";
 		textval = GetLocalizedString("Drop ") + range.value + GetLocalizedString(" Lowest Roll");
 		$$("#roll-droplow-label").text(textval);
-	});
+	}
+	$$('#roll-droplow-slider').off('range:change', drop_low_range_change).on('range:change', drop_low_range_change);
 	
-	$$("#dice-count").off("formajax:success").on("formajax:success", function() {
+	function count_ajax() {
 		var val = $$("input[name='dice-count-input']").val();
 		if (val > 0)
 		{
@@ -1043,8 +1051,9 @@ $$(document).on('page:init', function (e, page) {
 		{
 			console.log("error, NAN");
 		}
-	});
-	$$("#dice-side").off("formajax:success").on("formajax:success", function() {
+	}
+	$$("#dice-count").off("formajax:success", count_ajax).on("formajax:success", count_ajax);
+	function side_ajax() {
 		var val = $$("input[name='dice-side-input']").val();
 		if (val > 0)
 		{
@@ -1055,8 +1064,10 @@ $$(document).on('page:init', function (e, page) {
 		{
 			console.log("error, NAN");
 		}
-	});
-	$$("a").off("click").on("click", ProcessClick);
+	}
+	$$("#dice-side").off("formajax:success", side_ajax).on("formajax:success", side_ajax);
+	$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
+	//$$("a").off("click").on("click", ProcessClick);
 	
 	if ($$("#title-options").length != 0) {
 		UpdateOptionsTitle();
@@ -1088,7 +1099,6 @@ $$(document).on('page:init', function (e, page) {
 	}
 	
 	if ($$(".reroll-max-title").length != 0) {
-		console.log(save_data.current_roll[save_data.current_roll.length-1]);
 		$$(".reroll-max-title").text(GetLocalizedString("Reroll ") + save_data.current_roll[save_data.current_roll.length-1].roll_data.dice + GetLocalizedString("s"));
 	}
 	
