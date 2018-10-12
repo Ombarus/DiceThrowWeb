@@ -171,8 +171,7 @@ function ProcessClick(ev) {
 			save_data.history = JSON.parse('[]');
 			app.form.storeFormData("save.json", save_data);
 			UpdateHistoryList();
-			$$("a").off("click", ProcessClick);
-			$$("a").on("click", ProcessClick);
+			$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
 			console.log(save_data);
 		});		
 	}
@@ -183,8 +182,7 @@ function ProcessClick(ev) {
 			save_data.history.splice(index, 1);
 			app.form.storeFormData("save.json", save_data);
 			UpdateHistoryList();
-			$$("a").off("click", ProcessClick);
-			$$("a").on("click", ProcessClick);
+			$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
 			console.log(save_data);
 		});		
 	}
@@ -204,8 +202,7 @@ function ProcessClick(ev) {
 				UpdatePresetList();
 			}
 			UpdateAndroidShortcuts();
-			$$("a").off("click", ProcessClick);
-			$$("a").on("click", ProcessClick);
+			$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
 		});
 	}
 }
@@ -692,6 +689,7 @@ function UpdatePresetList() {
 	}
 	var content = "";
 	$$("#preset-list").text(content);
+	console.log("preset length = " + save_data.presets.length + ", isFirst = " + routepath);
 	if (save_data.presets.length <= 0 || !isFirst) {
 		$$(".preset-accordion").hide();
 	}
@@ -711,7 +709,7 @@ function UpdatePresetList() {
 	}
 	$$("#preset-list").append(content); // text(content) will escape html tags, use append()
 }
-$$("a").on("click", ProcessClick);
+$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
 
 function UpdateSortablePresetList() {
 	var content = "";
@@ -793,15 +791,26 @@ function UpdateHistoryList() {
 function PresetSortEvent(ev) {
 	var ifrom = ev.detail.from;
 	var ito = ev.detail.to;
+	console.log("Preset SORT event : " + ifrom + "(" + save_data.presets[ifrom].name + ")->" + ito + "(" + save_data.presets[ito].name + ")");
 	var tmp = save_data.presets[ifrom];
-	save_data.presets[ifrom] = save_data.presets[ito];
-	save_data.presets[ito] = tmp;
+	var tmp2 = save_data.presets[ifrom];
+	var direction = 1;
+	if (ifrom < ito) {
+		direction = -1;
+	}
+	for (var i = ito; i != ifrom + direction; i += direction) {
+		tmp2 = save_data.presets[i];
+		tmp = save_data.presets[i] = tmp;
+		tmp = tmp2;
+	}
+	//save_data.presets[ifrom] = save_data.presets[ito];
+	//save_data.presets[ito] = tmp;
 	app.form.storeFormData("save.json", save_data);
 	if ($$("#preset-list").length != 0) {
+		console.log("SortEvent: updatePresetList()");
 		UpdatePresetList();
 		UpdateAndroidShortcuts();
-		$$("a").off("click", ProcessClick);
-		$$("a").on("click", ProcessClick);
+		$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
 		$$("#preset-sortable-list").off("sortable:sort", PresetSortEvent);
 		$$("#preset-sortable-list").on("sortable:sort", PresetSortEvent);
 	}
@@ -877,7 +886,13 @@ $$(document).on('page:beforein', function (e, page) {
 	UpdateNav(page);
 });
 
+// sometimes when clicking the back button page:init is not triggered which keeps the preset page hidden
+$$(document).on("page:reinit", function (page){
+	UpdatePresetList();
+});
+
 $$(document).on('page:init', function (e, page) {
+	console.log("page:init");
 	if (page.$el.attr("data-name") == "dicestats" && (page.$el.hasClass("page-next") || isFromIntent == true) && save_data.current_roll[0].results.length <= 0) {
 		DoRollFromData();
 	}
