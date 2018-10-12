@@ -807,7 +807,6 @@ function PresetSortEvent(ev) {
 	//save_data.presets[ito] = tmp;
 	app.form.storeFormData("save.json", save_data);
 	if ($$("#preset-list").length != 0) {
-		console.log("SortEvent: updatePresetList()");
 		UpdatePresetList();
 		UpdateAndroidShortcuts();
 		$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
@@ -892,7 +891,6 @@ $$(document).on("page:reinit", function (page){
 });
 
 $$(document).on('page:init', function (e, page) {
-	console.log("page:init");
 	if (page.$el.attr("data-name") == "dicestats" && (page.$el.hasClass("page-next") || isFromIntent == true) && save_data.current_roll[0].results.length <= 0) {
 		DoRollFromData();
 	}
