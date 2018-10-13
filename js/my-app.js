@@ -1250,6 +1250,7 @@ if (document != undefined) {
 	
 	document.addEventListener("deviceready", function() {
 		UpdateAndroidShortcuts();
+		InitAdMob();
 		
 		if (window.plugins != undefined) {
 			window.plugins.Shortcuts.getIntent(function(intent) {
