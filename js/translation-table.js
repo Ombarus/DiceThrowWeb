@@ -97,7 +97,8 @@ var translation_table = {
 		"Product is not valid.": "Product is not valid.",
 		"Transaction still underway.": "Transaction still underway.",
 		"This was a one time purchase, you already own it.": "This was a one time purchase, you already own it.",
-		"Product cannot be purchased at this time.": "Product cannot be purchased at this time."
+		"Product cannot be purchased at this time.": "Product cannot be purchased at this time.",
+		"Canceled":"Canceled"
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -197,7 +198,8 @@ var translation_table = {
 		"Product is not valid.": "Ce produit est invalide.",
 		"Transaction still underway.": "La transaction est en cours.",
 		"This was a one time purchase, you already own it.": "Vous possédez déjà ce produit.",
-		"Product cannot be purchased at this time.": "L'achat ne peut être complété pour l'instant."
+		"Product cannot be purchased at this time.": "L'achat ne peut être complété pour l'instant.",
+		"Canceled":"Annulé"
 	},
 	"jp": {
 		"Settings":"設定",
@@ -297,7 +299,8 @@ var translation_table = {
 		"Product is not valid.": "この商品は正しくありません",
 		"Transaction still underway.": "少しお待ちください。",
 		"This was a one time purchase, you already own it.": "既に買いました商品です。",
-		"Product cannot be purchased at this time.": "残念ながら今買えません。"
+		"Product cannot be purchased at this time.": "残念ながら今買えません。",
+		"Canceled":"キャンセル"
 	}
 	
 };

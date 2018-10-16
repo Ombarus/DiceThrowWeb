@@ -113,5 +113,5 @@ function CancelAlert(showError) {
 	if (showError) {
 		msg = store.Error.message
 	}
-	app.dialog.alert(msg, "Canceled", function() {});
+	app.dialog.alert(msg, GetLocalizedString("Canceled"), function() {});
 }
