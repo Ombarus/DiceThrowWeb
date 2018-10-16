@@ -291,6 +291,7 @@ var translation_table = {
 		"More":"もっと",
 		"Back":"戻る",
 		"History is Empty":"履歴空",
+		"Remove Ads":"広告を削除",
 		"IAP Error":"IAPエラー",
 		"Product does not exist.": "この商品はありません。",
 		"Product is not valid.": "この商品は正しくありません",
