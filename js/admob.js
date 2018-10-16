@@ -3,7 +3,8 @@
 function InitAdMob() {
 	
 	window.admob.banner.config({
-	 id: 'ca-app-pub-3940256099942544/6300978111', // dedicated test ad unit ID for Android banners
+		//id: 'ca-app-pub-3940256099942544/6300978111', // dedicated test ad unit ID for Android banners
+		id: 'ca-app-pub-8275293921068244/9979789113', // official unit ID. DO NOT CLICK ADS !
 	});
 
 	// Create banner
