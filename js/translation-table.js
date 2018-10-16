@@ -89,7 +89,15 @@ var translation_table = {
 		"Delete Preset ?": "Delete Preset ?",
 		"Home":"Home",
 		"More":"More",
-		"Back":"Back"
+		"Back":"Back",
+		"History is Empty":"History is Empty",
+		"Remove Ads":"Remove Ads",
+		"IAP Error":"IAP Error",
+		"Product does not exist.": "Product does not exist.",
+		"Product is not valid.": "Product is not valid.",
+		"Transaction still underway.": "Transaction still underway.",
+		"This was a one time purchase, you already own it.": "This was a one time purchase, you already own it.",
+		"Product cannot be purchased at this time.": "Product cannot be purchased at this time."
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -181,7 +189,15 @@ var translation_table = {
 		"Delete Preset ?": "Supprimer le raccourci",
 		"Home":"Accueil",
 		"More":"Plus",
-		"Back":"Retour"
+		"Back":"Retour",
+		"History is Empty":"L'historique est vide",
+		"Remove Ads":"Enlever la Pub",
+		"IAP Error":"Erreur IAP",
+		"Product does not exist.": "Ce produit n'existe pas.",
+		"Product is not valid.": "Ce produit est invalide.",
+		"Transaction still underway.": "La transaction est en cours.",
+		"This was a one time purchase, you already own it.": "Vous possédez déjà ce produit.",
+		"Product cannot be purchased at this time.": "L'achat ne peut être complété pour l'instant."
 	},
 	"jp": {
 		"Settings":"設定",
@@ -273,7 +289,14 @@ var translation_table = {
 		"Delete Preset ?": "プリセット削除？",
 		"Home":"ホーム",
 		"More":"もっと",
-		"Back":"戻る"
+		"Back":"戻る",
+		"History is Empty":"履歴空",
+		"IAP Error":"IAPエラー",
+		"Product does not exist.": "この商品はありません。",
+		"Product is not valid.": "この商品は正しくありません",
+		"Transaction still underway.": "少しお待ちください。",
+		"This was a one time purchase, you already own it.": "既に買いました商品です。",
+		"Product cannot be purchased at this time.": "残念ながら今買えません。"
 	}
 	
 };

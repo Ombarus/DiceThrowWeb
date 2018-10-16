@@ -7,7 +7,9 @@ function InitAdMob() {
 	});
 
 	// Create banner
-	window.admob.banner.prepare();
+	if (save_data.settings.show_ads) {
+		window.admob.banner.prepare();
+	}
 
 	// Show the banner
 	//window.admob.banner.show();
@@ -20,29 +22,44 @@ function InitAdMob() {
 
 }
 
+function RemoveAds() {
+	window.admob.banner.remove();
+}
+
+function ShowAds() {
+	window.admob.banner.prepare(); // auto-show on prepare
+}
+
+function adsleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 window.addEventListener("orientationchange", function(){
-    //window.alert("Orientation changed : " + screen.orientation.type); // e.g. portrait
-	window.admob.banner.remove().then( window.admob.banner.prepare() );
+	if (document != undefined && save_data.settings.show_ads) {
+		//console.log("Orientation Changed " + screen.orientation.type);
+		//window.alert("Orientation changed : " + screen.orientation.type); // e.g. portrait
+		window.admob.banner.remove().then( function() {return adsleep(1000);} ).then( function() { window.admob.banner.prepare(); } );
+	}
 });
 
 document.addEventListener('admob.banner.events.LOAD_FAIL', function(event) {
-	window.alert("ADMOB EVENT : Load Fail");
+	//window.alert("ADMOB EVENT : Load Fail");
 	console.log(event);
 });
 
 document.addEventListener('admob.banner.events.LOAD', function(event) {
-	window.alert("ADMOB EVENT : Load");
+	//window.alert("ADMOB EVENT : Load");
 });
 
 document.addEventListener('admob.banner.events.OPEN', function(event) {
-	window.alert("ADMOB EVENT : Open");
+	//window.alert("ADMOB EVENT : Open");
 });
 
 document.addEventListener('admob.banner.events.CLOSE', function(event) {
-	window.alert("ADMOB EVENT : Close");
+	//window.alert("ADMOB EVENT : Close");
 });
 
 document.addEventListener('admob.banner.events.EXIT_APP', function(event) {
-	window.alert("ADMOB EVENT : Exit App");
+	//window.alert("ADMOB EVENT : Exit App");
 	window.admob.banner.hide().then( window.admob.banner.remove() );
 });

@@ -89,6 +89,10 @@ function MatchWithPreset(roll_data) {
 
 function ProcessClick(ev) {
 	var btn = $$(ev.target);
+	if (btn.hasClass("popup-buy-ads")) {
+		IAPPrompt("com.ombarus.dicedmfree.removeads");
+		//IAPPrompt("test");
+	}
 	if (btn.hasClass("hback")) {
 		ProcessHardwareBack();
 	}
@@ -647,7 +651,7 @@ function UpdateTheme() {
 	}
 }
 
-var initial_data = JSON.parse('{"version":10, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false}}');
+var initial_data = JSON.parse('{"version":11, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false, "show_ads":true}}');
 save_data = app.form.getFormData("save.json");
 // APP HAS BEEN RELEASE. It is innacceptable to delete profile now !
 if (save_data == null || save_data.version == undefined || save_data.version < 9)
@@ -665,12 +669,19 @@ else
 			}
 		}
 	}
+	if (save_data.version < 11) {
+		save_data.settings.show_ads = true;
+	}
 	if (save_data.version < initial_data.version) {
 		save_data.version = initial_data.version;
 		app.form.storeFormData("save.json", save_data);
 		console.log(save_data);
 	}
 	save_data.current_roll = initial_data.current_roll;
+	
+	if (save_data.settings.show_ads == false) {
+		$$(".popup-buy-ads").hide();
+	}
 }
 
 
@@ -791,7 +802,6 @@ function UpdateHistoryList() {
 function PresetSortEvent(ev) {
 	var ifrom = ev.detail.from;
 	var ito = ev.detail.to;
-	console.log("Preset SORT event : " + ifrom + "(" + save_data.presets[ifrom].name + ")->" + ito + "(" + save_data.presets[ito].name + ")");
 	var tmp = save_data.presets[ifrom];
 	var tmp2 = save_data.presets[ifrom];
 	var direction = 1;
@@ -1250,6 +1260,7 @@ if (document != undefined) {
 	
 	document.addEventListener("deviceready", function() {
 		UpdateAndroidShortcuts();
+		InitIAPs(); // Init iap before because if the user bought "no more ads" we shouldn't init admob !
 		InitAdMob();
 		
 		if (window.plugins != undefined) {
