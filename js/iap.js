@@ -1,4 +1,4 @@
-const remove_add_id = "com.ombarus.dicedmfree.removeads";
+const remove_add_id = "Remove Ads";
 //const remove_add_id = "test";
 
 
@@ -9,16 +9,25 @@ function InitIAPs() {
 
     // We register a dummy product. It's ok, it shouldn't
     // prevent the store "ready" event from firing.
-    store.register({
-        id:    "com.ombarus.dicedmfree.removeads",
-        alias: "Remove Ads",
-        type:  store.NON_CONSUMABLE
-    });
-	store.register({
-        id:    "test",
-        alias: "test",
-        type:  store.CONSUMABLE
-    });
+	if(app.platform === "ios"){
+		store.register({
+			id:    "dicedmfree.removeads",
+			alias: "Remove Ads",
+			type:  store.NON_CONSUMABLE
+		});
+	}
+	else {
+		store.register({
+			id:    "com.ombarus.dicedmfree.removeads",
+			alias: "Remove Ads",
+			type:  store.NON_CONSUMABLE
+		});
+		store.register({
+			id:    "test",
+			alias: "test",
+			type:  store.CONSUMABLE
+		});
+	}
 
     // When every goes as expected, it's time to celebrate!
     // The "ready" event should be welcomed with music and fireworks,
@@ -38,6 +47,7 @@ function InitIAPs() {
 		save_data.settings.show_ads = false;
 		RemoveAds();
 		product.finish();
+		console.log("sent product.finish()");
 	});
 
 	store.when(remove_add_id).cancelled(function(product) {
@@ -75,6 +85,7 @@ function InitIAPs() {
 
 function IAPPrompt(name) {
 	//window.alert(JSON.stringify(store.products));
+	console.log(JSON.stringify(store.products));
 	var product = store.get(name);
 	var valid = true;
 	if (!product) {

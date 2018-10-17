@@ -90,7 +90,7 @@ function MatchWithPreset(roll_data) {
 function ProcessClick(ev) {
 	var btn = $$(ev.target);
 	if (btn.hasClass("popup-buy-ads")) {
-		IAPPrompt("com.ombarus.dicedmfree.removeads");
+		IAPPrompt("Remove Ads");
 		//IAPPrompt("test");
 	}
 	if (btn.hasClass("hback")) {
