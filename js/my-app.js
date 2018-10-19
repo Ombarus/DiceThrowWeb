@@ -89,6 +89,21 @@ function MatchWithPreset(roll_data) {
 
 function ProcessClick(ev) {
 	var btn = $$(ev.target);
+	
+	// DEBUG ONLY
+	if (btn.hasClass("debug-command")) {
+		var t = btn.text();
+		if (t == "print_iap") {
+			console.log(JSON.stringify(store.products));
+			window.alert(JSON.stringify(store.products));
+		}
+		if (t == "refresh_iap") {
+			store.refresh();
+		}
+	}
+	
+	////////////
+	
 	if (btn.hasClass("popup-buy-ads")) {
 		IAPPrompt("Remove Ads");
 		//IAPPrompt("test");
