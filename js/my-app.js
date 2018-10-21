@@ -100,6 +100,23 @@ function ProcessClick(ev) {
 		if (t == "refresh_iap") {
 			store.refresh();
 		}
+		if (t == "check_lang") {
+			if (!window.Intl) {
+				window.alert("window.Intl is NULL");
+				return;
+			}
+			if (typeof window.Intl != 'object') {
+				window.alert(window.Intl);
+				return;
+			}
+			if (window.Intl && typeof window.Intl === 'object') {
+				cur_lang = navigator.language.split("-")[0].toLowerCase();
+				window.alert("Detected language : " + navigator.language + " (" + cur_lang + ")");
+			}
+			else {
+				window.alert("Could not detect language");
+			}
+		}
 	}
 	
 	////////////
