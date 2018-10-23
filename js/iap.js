@@ -13,25 +13,12 @@ function InitIAPs() {
 
     // We register a dummy product. It's ok, it shouldn't
     // prevent the store "ready" event from firing.
-	if(app.platform === "ios"){
-		store.register({
-			id:    "dicedmfree.removeads",
-			alias: "Remove Ads",
-			type:  store.NON_CONSUMABLE
-		});
-	}
-	else {
-		store.register({
-			id:    "com.ombarus.dicedmfree.removeads",
-			alias: "Remove Ads",
-			type:  store.NON_CONSUMABLE
-		});
-		store.register({
-			id:    "test",
-			alias: "test",
-			type:  store.CONSUMABLE
-		});
-	}
+
+	store.register({
+		id:    "com.ombarus.dicedmfree.removeads",
+		alias: "Remove Ads",
+		type:  store.NON_CONSUMABLE
+	});
 
     // When every goes as expected, it's time to celebrate!
     // The "ready" event should be welcomed with music and fireworks,

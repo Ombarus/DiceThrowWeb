@@ -117,6 +117,9 @@ function ProcessClick(ev) {
 				window.alert("Could not detect language");
 			}
 		}
+		if (t == "check_platform") {
+			window.alert("app.platform = " + app.platform + " and app.device.ios = " + app.device.ios);
+		}
 	}
 	
 	////////////
