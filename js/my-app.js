@@ -732,7 +732,6 @@ function UpdatePresetList() {
 	}
 	var content = "";
 	$$("#preset-list").text(content);
-	console.log("preset length = " + save_data.presets.length + ", isFirst = " + routepath);
 	if (save_data.presets.length <= 0 || !isFirst) {
 		$$(".preset-accordion").hide();
 	}

@@ -3,9 +3,13 @@ const remove_add_id = "Remove Ads";
 
 
 function InitIAPs() {
-	// Let's set a pretty high verbosity level, so that we see a lot of stuff
-    // in the console (reassuring us that something is happening).
-    store.verbosity = store.INFO;
+	
+	//store.QUIET or 0 to disable all logging (default)
+	//store.ERROR or 1 to show only error messages
+	//store.WARNING or 2 to show warnings and errors
+	//store.INFO or 3 to also show information messages
+	//store.DEBUG or 4 to enable internal debugging messages.
+    store.verbosity = store.ERROR;
 
     // We register a dummy product. It's ok, it shouldn't
     // prevent the store "ready" event from firing.
@@ -47,7 +51,6 @@ function InitIAPs() {
 		save_data.settings.show_ads = false;
 		RemoveAds();
 		product.finish();
-		console.log("sent product.finish()");
 	});
 
 	store.when(remove_add_id).cancelled(function(product) {
