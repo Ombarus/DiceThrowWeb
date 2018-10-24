@@ -98,7 +98,10 @@ var translation_table = {
 		"Transaction still underway.": "Transaction still underway.",
 		"This was a one time purchase, you already own it.": "This was a one time purchase, you already own it.",
 		"Product cannot be purchased at this time.": "Product cannot be purchased at this time.",
-		"Canceled":"Canceled"
+		"Canceled":"Canceled",
+		"IAP Store":"IAP Store",
+		"Restore Purchases":"Restore Purchases",
+		"Purchases Restored":"Purchases Restored"
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -199,7 +202,10 @@ var translation_table = {
 		"Transaction still underway.": "La transaction est en cours.",
 		"This was a one time purchase, you already own it.": "Vous possédez déjà ce produit.",
 		"Product cannot be purchased at this time.": "L'achat ne peut être complété pour l'instant.",
-		"Canceled":"Annulé"
+		"Canceled":"Annulé",
+		"IAP Store":"Achats Intégrés",
+		"Restore Purchases":"Récupéré les achats",
+		"Purchases Restored":"Achats récupérés"
 	},
 	"jp": {
 		"Settings":"設定",
@@ -300,7 +306,10 @@ var translation_table = {
 		"Transaction still underway.": "少しお待ちください。",
 		"This was a one time purchase, you already own it.": "既に買いました商品です。",
 		"Product cannot be purchased at this time.": "残念ながら今買えません。",
-		"Canceled":"キャンセル"
+		"Canceled":"キャンセル",
+		"IAP Store":"アプリ内課金",
+		"Restore Purchases":"アプリ内課金を確認します",
+		"Purchases Restored":"アプリ内課金を確認しました"
 	}
 	
 };

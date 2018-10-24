@@ -123,7 +123,9 @@ function ProcessClick(ev) {
 	}
 	
 	////////////
-	
+	if (btn.hasClass("refresh-store")) {
+		RefreshStore();
+	}
 	if (btn.hasClass("popup-buy-ads")) {
 		IAPPrompt("Remove Ads");
 		//IAPPrompt("test");

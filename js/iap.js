@@ -73,6 +73,11 @@ function InitIAPs() {
 	});
 }
 
+function RefreshStore() {
+	store.refresh();
+	app.dialog.alert(GetLocalizedString("Purchases Restored"), GetLocalizedString("IAP Store"), function() {});
+}
+
 function IAPPrompt(name) {
 	//window.alert(JSON.stringify(store.products));
 	console.log(JSON.stringify(store.products));
