@@ -1267,6 +1267,7 @@ function DoUpdateAndroidShortcuts() {
 }
 
 function RunPreset(preset_name) {
+	console.log("RUN PRESET");
 	var preset = null;
 	for (var i = 0; i < save_data.presets.length; i++) {
 		if (save_data.presets[i].name == preset_name) {
@@ -1276,6 +1277,7 @@ function RunPreset(preset_name) {
 	}
 	if (preset != null) {
 		save_data.current_roll = JSON.parse(JSON.stringify(preset));
+		console.log("current_roll : " + JSON.stringify(save_data.current_roll));
 		if (mainView.router.currentRoute.url.includes("dicestats")) {
 			// because we don't actually "navigate" to dicestats in this case
 			// page-next will not be set and we need a hack to run RollDice in page:init
@@ -1286,6 +1288,7 @@ function RunPreset(preset_name) {
 			});
 		}
 		else {
+			console.log("NAVIGATE TO /dicestats/");
 			app.router.navigate("/dicestats/");
 		}
 	}
@@ -1300,16 +1303,20 @@ if (document != undefined) {
 		InitAdMob();
 		
 		if (window.plugins != undefined) {
+			console.log("Checking shortcuts.getIntent");
 			window.plugins.Shortcuts.getIntent(function(intent) {
-				if (intent.extras != undefined && intent.extras["com.ombarus.dicedm.preset_name"] != undefined) {
-					var preset_name = intent.extras["com.ombarus.dicedm.preset_name"];
+				console.log("get intent : " + JSON.stringify(intent.extras));
+				if (intent.extras != undefined && intent.extras["com.ombarus.dicedmfree.preset_name"] != undefined) {
+					var preset_name = intent.extras["com.ombarus.dicedmfree.preset_name"];
+					console.log("preset_name = " + preset_name);
 					RunPreset(preset_name);
 				}
 			})
 				
 			window.plugins.Shortcuts.onNewIntent(function(intent) {
-				if (intent.extras != undefined && intent.extras["com.ombarus.dicedm.preset_name"] != undefined) {
-					var preset_name = intent.extras["com.ombarus.dicedm.preset_name"];
+				console.log("On New Intent Fired ! " + JSON.stringify(intent.extras));
+				if (intent.extras != undefined && intent.extras["com.ombarus.dicedmfree.preset_name"] != undefined) {
+					var preset_name = intent.extras["com.ombarus.dicedmfree.preset_name"];
 					RunPreset(preset_name);
 				}
 			})
