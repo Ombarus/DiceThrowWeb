@@ -17,6 +17,7 @@ var mainView = app.views.create('.view-main');
 var $$ = Dom7;
 var openedDialog = null;
 var isFromIntent = false;
+var isRerollFromDetail = false;
 
 // This is not ever used except as a reference, it might not be up to date (but I try)
 var sample_data = JSON.parse('{ '+
@@ -89,6 +90,25 @@ function MatchWithPreset(roll_data) {
 
 function ProcessClick(ev) {
 	var btn = $$(ev.target);
+	
+	////////////
+	if (btn.hasClass("reroll-button")) {
+		for (var i = 0; i < save_data.current_roll.length; i++)
+		{
+			save_data.current_roll[i].results = []
+		}
+		isFromIntent = true;
+		if ($$("#tab-1").hasClass("tab-active")) {
+			isRerollFromDetail = false;
+		}
+		else {
+			isRerollFromDetail = true;
+		}
+		mainView.router.navigate(mainView.router.currentRoute.url, {
+			reloadCurrent: true,
+			ignoreCache: true,
+		});
+	}
 	if (btn.hasClass("hback")) {
 		ProcessHardwareBack();
 	}
@@ -1086,6 +1106,11 @@ $$(document).on('page:init', function (e, page) {
 	
 	if ($$("#title-options").length != 0) {
 		UpdateOptionsTitle();
+	}
+	
+	if ($$("#tab-1").length != 0 && isRerollFromDetail) {
+		isRerollFromDetail = false;
+		app.tab.show($$("#tab-2"), false);
 	}
 	
 	if ($$("#tab-1").length != 0 && save_data.current_roll.length == 1 && save_data.current_roll[0].results.length == 1) {
