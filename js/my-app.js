@@ -47,7 +47,7 @@ var sample_data = JSON.parse('{ '+
 '			"name":"1d6+3 spellcasting" '+
 '		} '+
 '	],'+
-'	"settings": {"first_page":"dice", "show_roll_options":true, "show_tooltips":true}'+
+'	"settings": {"first_page":"dice", "show_roll_options":true, "show_tooltips":true, "result_page:":"stats"}'+
 '}');
 ///////
 
@@ -706,7 +706,7 @@ function UpdateTheme() {
 	}
 }
 
-var initial_data = JSON.parse('{"version":11, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false, "show_ads":true}}');
+var initial_data = JSON.parse('{"version":12, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false, "show_ads":true, "result_page:":"stats"}}');
 save_data = app.form.getFormData("save.json");
 // APP HAS BEEN RELEASE. It is innacceptable to delete profile now !
 if (save_data == null || save_data.version == undefined || save_data.version < 9)
@@ -726,6 +726,9 @@ else
 	}
 	if (save_data.version < 11) {
 		save_data.settings.show_ads = true;
+	}
+	if (save_data.version < 12) {
+		save_data.settings.result_page = "stats"
 	}
 	if (save_data.version < initial_data.version) {
 		save_data.version = initial_data.version;
@@ -1010,6 +1013,13 @@ $$(document).on('page:init', function (e, page) {
 		app.form.storeFormData("save.json", save_data);
 	}
 	$$("input[name='first-page']").off("change", first_page_change).on("change", first_page_change );
+	
+	function result_page_change(ev){
+		save_data.settings.result_page = ev.target.value;
+		app.form.storeFormData("save.json", save_data);
+	}
+	$$("input[name='result-page']").off("change", result_page_change).on("change", result_page_change );
+	
 	function option_change(ev) {
 		var show_page = $$(ev.target).is(':checked');
 		save_data.settings.show_roll_options = show_page;
@@ -1160,6 +1170,9 @@ $$(document).on('page:init', function (e, page) {
 	if ($$("#tab-1").length != 0 && save_data.current_roll.length == 1 && save_data.current_roll[0].results.length == 1) {
 		app.tab.show($$("#tab-2"), false);
 	}
+	else if (save_data.settings.result_page == "detail") {
+		app.tab.show($$("#tab-2"), false);
+	}
 	
 	if ($$("#stats-count").length != 0)
 	{
@@ -1191,6 +1204,17 @@ $$(document).on('page:init', function (e, page) {
 		for (var i = 0; i < first_page_settings.length; i++) {
 			var input = $$(first_page_settings[i]);
 			if (input.attr("value") == save_data.settings.first_page) {
+				input.attr('checked',true);
+			}
+			else
+			{
+				input.removeAttr('checked');
+			}
+		}
+		var result_page_settings = $$("input[name='result-page']");
+		for (var i = 0; i < result_page_settings.length; i++) {
+			var input = $$(result_page_settings[i]);
+			if (input.attr("value") == save_data.settings.result_page) {
 				input.attr('checked',true);
 			}
 			else

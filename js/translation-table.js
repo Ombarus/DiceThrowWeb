@@ -101,7 +101,8 @@ var translation_table = {
 		"Canceled":"Canceled",
 		"IAP Store":"IAP Store",
 		"Restore Purchases":"Restore Purchases",
-		"Purchases Restored":"Purchases Restored"
+		"Purchases Restored":"Purchases Restored",
+		"Choose Result Page":"Choose Result Page"
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -205,7 +206,8 @@ var translation_table = {
 		"Canceled":"Annulé",
 		"IAP Store":"Achats Intégrés",
 		"Restore Purchases":"Récupéré les achats",
-		"Purchases Restored":"Achats récupérés"
+		"Purchases Restored":"Achats récupérés",
+		"Choose Result Page":"Page des résultats"
 	},
 	"jp": {
 		"Settings":"設定",
@@ -309,7 +311,8 @@ var translation_table = {
 		"Canceled":"キャンセル",
 		"IAP Store":"アプリ内課金",
 		"Restore Purchases":"アプリ内課金を確認します",
-		"Purchases Restored":"アプリ内課金を確認しました"
+		"Purchases Restored":"アプリ内課金を確認しました",
+		"Choose Result Page":"結果の最初のページ"
 	}
 	
 };
