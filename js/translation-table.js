@@ -89,7 +89,9 @@ var translation_table = {
 		"Delete Preset ?": "Delete Preset ?",
 		"Home":"Home",
 		"More":"More",
-		"Back":"Back"
+		"Back":"Back",
+		"History is Empty":"History is Empty",
+		"Choose Result Page":"Choose Result Page"
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -181,7 +183,9 @@ var translation_table = {
 		"Delete Preset ?": "Supprimer le raccourci",
 		"Home":"Accueil",
 		"More":"Plus",
-		"Back":"Retour"
+		"Back":"Retour",
+		"History is Empty":"L'historique est vide",
+		"Choose Result Page":"Page des résultats"
 	},
 	"jp": {
 		"Settings":"設定",
@@ -273,7 +277,9 @@ var translation_table = {
 		"Delete Preset ?": "プリセット削除？",
 		"Home":"ホーム",
 		"More":"もっと",
-		"Back":"戻る"
+		"Back":"戻る",
+		"History is Empty":"履歴空",
+		"Choose Result Page":"結果の最初のページ"
 	}
 	
 };
