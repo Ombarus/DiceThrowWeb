@@ -124,6 +124,56 @@ function ProcessClick(ev) {
 	}
 	
 	////////////
+	if (btn.hasClass("save-preset")) {
+		DoSavePresetEdit();
+	}
+	if (btn.hasClass("preset-add-roll")) {
+		var root = $$(".throw_data")[0];
+		var copy = root.cloneNode(true);
+		$$(copy).show();
+		root.parentNode.insertBefore(copy, null);
+		
+		var cur_data = {};
+		cur_data["roll_data"] = {}
+		cur_data["roll_data"]["bonus_dice"] = 0;
+		cur_data["roll_data"]["bonus_roll"] = 0;
+		cur_data["roll_data"]["count"] = 1;
+		cur_data["roll_data"]["dice"] = 2;
+		cur_data["roll_data"]["drop_high"] = 0;
+		cur_data["roll_data"]["drop_low"] = 0;
+		cur_data["roll_data"]["max"] = false;
+		cur_data["roll_data"]["min"] = false;
+		
+		var child_detail_dice_face = $$(copy).find("input[name='preset-detail-dice-face']");
+		app.stepper.create({"el":$$(child_detail_dice_face).parents(".stepper"), "inputEl":child_detail_dice_face, "min":2, "value":2, "manualInputMode":true});
+		
+		var child_detail_dice_count = $$(copy).find("input[name='preset-detail-dice-count']");
+		app.stepper.create({"el":$$(child_detail_dice_count).parents(".stepper"), "inputEl":child_detail_dice_count, "min":1, "value":1, "manualInputMode":true});
+		
+		var child_preset_bonus_dice_slider = $$(copy).find(".preset-bonus-dice-slider");
+		var child_preset_dice_bonus = $$(copy).find("input[name='preset-dice-bonus']");
+		app.range.create({"el":child_preset_bonus_dice_slider, "inputEl":child_preset_dice_bonus, "label":true, "min":-10, "max":10});
+		
+		var child_preset_bonus_roll_slider = $$(copy).find(".preset-bonus-roll-slider");
+		var child_preset_roll_bonus = $$(copy).find("input[name='preset-roll-bonus']");
+		app.range.create({"el":child_preset_bonus_roll_slider, "inputEl":child_preset_roll_bonus, "label":true, "min":-10, "max":10});
+		
+		var child_preset_drophigh_slider = $$(copy).find(".preset-drophigh-slider");
+		var child_preset_drophigh = $$(copy).find("input[name='preset-drophigh']");
+		app.range.create({"el":child_preset_drophigh_slider, "inputEl":child_preset_drophigh, "label":true, "min":0, "max":10});
+		
+		var child_preset_droplow_slider = $$(copy).find(".preset-droplow-slider");
+		var child_preset_droplow = $$(copy).find("input[name='preset-droplow']");
+		app.range.create({"el":child_preset_droplow_slider, "inputEl":child_preset_droplow, "label":true, "min":0, "max":10});
+		
+		set_all_preset_detail(copy, cur_data);
+		
+		var roots = $$(".throw-id");
+		for (var i = 0; i < roots.length; i++) {
+			// -1 because there's the hidden "real" root that we use as reference so there's one more than actually
+			$$(roots[i]).text(GetLocalizedString("Throw ") + (i-1));
+		}
+	}
 	if (btn.hasClass("reroll-button")) {
 		for (var i = 0; i < save_data.current_roll.length; i++)
 		{
@@ -244,6 +294,13 @@ function ProcessClick(ev) {
 			$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
 			console.log(save_data);
 		});		
+	}
+	if (btn.hasClass("delete-throw-confirm")) {
+		var root = btn.parents(".throw_data");
+		/*var presetname = $$(ev.target).parents(".item-content").find(".item-inner").text();*/
+		app.dialog.confirm(GetLocalizedString('Delete Throw ?'), "", function (name) {
+			root.remove();
+		});
 	}
 	if (btn.hasClass("open-confirm"))	 {
 		var presetname = $$(ev.target).parents(".item-content").find(".item-inner").text();
@@ -796,9 +853,9 @@ function UpdateSortablePresetList() {
 		'			<i class="icon f7-icons color-red ios-only open-confirm">close_round_fill</i>' +
 		'			<i class="icon material-icons color-red md-only open-confirm">remove_circle</i>' +
 		'		</a>' +
-		'		<div class="item-inner">' +
+		'		<a href="/presetmanagedetail/?presetname=' + presetname + '" class="link item-inner">' +
 		'			<div class="item-title">' + presetname + '</div>' +
-		'		</div>' +
+		'		</a>' +
 		'	</div>' +
 		'	<div class="sortable-handler"></div>' +
 		'</li>';
@@ -941,6 +998,258 @@ function callback_save_preset(name) {
 		app.form.storeFormData("save.json", save_data);
 		UpdateAndroidShortcuts();
 	}
+}
+
+function DoSavePresetEdit() {
+	var root_preset_detail_name = $$("input[name='preset-detail-name']");
+	var root_preset_detail_name_orig = $$("input[name='preset_detail-name-orig']");
+	var new_preset_data = {}
+	preset_index = -1;
+	for (var i = 0; i < save_data.presets.length; i++) {
+		if (save_data.presets[i].name == root_preset_detail_name_orig.val()) {
+			preset_index = i;
+			break;
+		}
+	}
+	if (preset_index < 0) {
+		return;
+	}
+	
+	new_preset_data["name"] = root_preset_detail_name.val();
+	new_preset_data["roll_data"] = [];
+	
+	var dice_throws = $$(".throw_data");
+	for (var i = 0; i < dice_throws.length; i++) {
+		// these two method crash for some reason
+		//$(element).is(":visible");
+		//$(element).is(":hidden");
+		var elem = $$(dice_throws[i]);
+		if (dice_throws[i].style.display == "none") {
+			continue;
+		}
+		
+		var cur_data = {}
+		cur_data["results"] = [];
+		cur_data["roll_data"] = {};
+		
+		var child_throw_id = elem.find(".throw-id");
+		var child_detail_dice_face = elem.find("input[name='preset-detail-dice-face']");
+		var child_detail_dice_count = elem.find("input[name='preset-detail-dice-count']");
+		var child_preset_dice_reroll_max = elem.find("input[name='preset-dice-reroll-max']");
+		var child_preset_dice_reroll_min = elem.find("input[name='preset-dice-reroll-min']");
+		var child_preset_bonus_dice_slider = elem.find(".preset-bonus-dice-slider");
+		var child_preset_dice_bonus = elem.find("input[name='preset-dice-bonus']");
+		var child_preset_bonus_roll_slider = elem.find(".preset-bonus-roll-slider");
+		var child_preset_roll_bonus = elem.find("input[name='preset-roll-bonus']");
+		var child_preset_drophigh_slider = elem.find(".preset-drophigh-slider");
+		var child_preset_drophigh = elem.find("input[name='preset-drophigh']");
+		var child_preset_droplow_slider = elem.find(".preset-droplow-slider");
+		var child_preset_droplow = elem.find("input[name='preset-droplow']");
+		
+		cur_data["roll_data"]["bonus_dice"] = parseInt(child_preset_dice_bonus.val());
+		cur_data["roll_data"]["bonus_roll"] = parseInt(child_preset_roll_bonus.val());
+		cur_data["roll_data"]["count"] = child_detail_dice_count.val();
+		cur_data["roll_data"]["dice"] = child_detail_dice_face.val();
+		cur_data["roll_data"]["drop_high"] = parseInt(child_preset_drophigh.val());
+		cur_data["roll_data"]["drop_low"] = parseInt(child_preset_droplow.val());
+		cur_data["roll_data"]["max"] = $$(child_preset_dice_reroll_max).is(':checked');
+		cur_data["roll_data"]["min"] = $$(child_preset_dice_reroll_min).is(':checked');
+		new_preset_data["roll_data"].push(JSON.parse(JSON.stringify(cur_data)));
+	}
+	//console.log(new_preset_data);
+	save_data.presets[preset_index] = JSON.parse(JSON.stringify(new_preset_data));
+	app.form.storeFormData("save.json", save_data);
+}
+
+function InitPresetDetail(preset_name) {
+	var preset_data;
+	var copy = $$(".throw_data")[0];
+	var root = $$(".throw_data")[0];
+	
+	for (var i = 0; i < save_data.presets.length; i++) {
+		if (save_data.presets[i].name == preset_name) {
+			preset_data = save_data.presets[i];
+			break;
+		}
+	}
+	
+	var root_throw_id = $$(".throw-id");
+	var root_preset_detail_name = $$("input[name='preset-detail-name']");
+	var root_preset_detail_name_orig = $$("input[name='preset_detail-name-orig']");
+	var root_preset_max_title = $$(".preset-max-title");
+	var root_detail_dice_face = $$("input[name='preset-detail-dice-face']");
+	var root_detail_dice_count = $$("input[name='preset-detail-dice-count']");
+	var root_preset_dice_reroll_max = $$("input[name='preset-dice-reroll-max']");
+	var root_preset_dice_reroll_min = $$("input[name='preset-dice-reroll-min']");
+	var root_preset_bonus_dice_slider = $$(".preset-bonus-dice-slider");
+	var root_preset_dice_bonus = $$("input[name='preset-dice-bonus']");
+	var root_preset_bonus_roll_slider = $$(".preset-bonus-roll-slider");
+	var root_preset_roll_bonus = $$("input[name='preset-roll-bonus']");
+	var root_preset_drophigh_slider = $$(".preset-drophigh-slider");
+	var root_preset_drophigh = $$("input[name='preset-drophigh']");
+	var root_preset_droplow_slider = $$(".preset-droplow-slider");
+	var root_preset_droplow = $$("input[name='preset-droplow']");
+	
+	root_preset_detail_name.val(preset_name);
+	root_preset_detail_name_orig.val(preset_name);
+	
+	var child_throw_id = $$(".throw-id");
+	var child_preset_max_title = $$(".preset-max-title");
+	var child_detail_dice_face = $$("input[name='preset-detail-dice-face']");
+	var child_detail_dice_count = $$("input[name='preset-detail-dice-count']");
+	var child_preset_dice_reroll_max = $$("input[name='preset-dice-reroll-max']");
+	var child_preset_dice_reroll_min = $$("input[name='preset-dice-reroll-min']");
+	var child_preset_bonus_dice_slider = $$(".preset-bonus-dice-slider");
+	var child_preset_dice_bonus = $$("input[name='preset-dice-bonus']");
+	var child_preset_bonus_roll_slider = $$(".preset-bonus-roll-slider");
+	var child_preset_roll_bonus = $$("input[name='preset-roll-bonus']");
+	var child_preset_drophigh_slider = $$(".preset-drophigh-slider");
+	var child_preset_drophigh = $$("input[name='preset-drophigh']");
+	var child_preset_droplow_slider = $$(".preset-droplow-slider");
+	var child_preset_droplow = $$("input[name='preset-droplow']");
+	
+	for (var i = 0; i < preset_data.roll_data.length; i++) {
+		copy = root.cloneNode(true);
+		
+		child_throw_id = $$(copy).find(".throw-id");
+		child_throw_id.text(GetLocalizedString("Throw ") + i);
+		
+		root.parentNode.insertBefore(copy, null);
+		
+		set_all_preset_detail(copy, preset_data.roll_data[i]);
+	}
+	
+	$$(root).hide();
+/*
+	var copy = null
+	var root = $$(".throw_data")[0];
+	for (var i = 0; i < 4; i++) {
+		copy = root.cloneNode(true);
+		root.append(copy);
+	}
+	*/
+}
+
+function set_all_preset_detail(copy, roll_data) {
+	var child_preset_max_title = $$(copy).find(".preset-max-title");
+	var child_detail_dice_face = $$(copy).find("input[name='preset-detail-dice-face']");
+	var child_detail_dice_count = $$(copy).find("input[name='preset-detail-dice-count']");
+	var child_preset_dice_reroll_max = $$(copy).find("input[name='preset-dice-reroll-max']");
+	var child_preset_dice_reroll_min = $$(copy).find("input[name='preset-dice-reroll-min']");
+	var child_preset_bonus_dice_slider = $$(copy).find(".preset-bonus-dice-slider");
+	var child_preset_dice_bonus = $$(copy).find("input[name='preset-dice-bonus']");
+	var child_preset_bonus_roll_slider = $$(copy).find(".preset-bonus-roll-slider");
+	var child_preset_roll_bonus = $$(copy).find("input[name='preset-roll-bonus']");
+	var child_drop_root = $$(copy).find(".preset-drop-root");
+	var child_preset_drophigh_slider = $$(copy).find(".preset-drophigh-slider");
+	var child_preset_drophigh = $$(copy).find("input[name='preset-drophigh']");
+	var child_preset_droplow_slider = $$(copy).find(".preset-droplow-slider");
+	var child_preset_droplow = $$(copy).find("input[name='preset-droplow']");
+	
+	app.range.create({"el":child_preset_bonus_dice_slider, "inputEl":child_preset_dice_bonus, "label":true, "min":-10, "max":10, "value":0});
+	app.range.create({"el":child_preset_bonus_roll_slider, "inputEl":child_preset_roll_bonus, "label":true, "min":-10, "max":10, "value":0});
+	app.range.create({"el":child_preset_drophigh_slider, "inputEl":child_preset_drophigh, "label":true, "min":0, "max":10, "value":0});
+	app.range.create({"el":child_preset_droplow_slider, "inputEl":child_preset_droplow, "label":true, "min":0, "max":10, "value":0});
+	
+	function dice_face_change(ev) {
+		child_preset_max_title.text(GetLocalizedString("Reroll ") + ev.target.value + GetLocalizedString("s"));
+	}
+	child_detail_dice_face.off("change", dice_face_change).on("change", dice_face_change);
+	child_detail_dice_face.val(roll_data.roll_data.dice);
+	function dice_count_change(ev) {
+		var count = parseInt(child_detail_dice_count.val());
+		if (count <= 1) {
+			$$(child_drop_root).hide();
+		}
+		else {
+			$$(child_drop_root).show();
+		}
+		console.log($$(child_preset_drophigh));
+		$$(child_preset_drophigh)[0].max = count;
+		$$(child_preset_droplow)[0].max = count;
+		app.range.get(child_preset_drophigh_slider).max = count;
+		app.range.get(child_preset_droplow_slider).max = count;
+	}
+	child_detail_dice_count.off("change", dice_count_change).on("change", dice_count_change);
+	child_detail_dice_count.val(roll_data.roll_data.count);
+	dice_count_change(null);
+	
+	child_preset_max_title.text(GetLocalizedString("Reroll ") + roll_data.roll_data.dice + GetLocalizedString("s"));
+	if (roll_data.roll_data.max == true) {
+		 child_preset_dice_reroll_max.attr('checked',true);
+	}
+	else {
+		child_preset_dice_reroll_max.removeAttr('checked');
+	}
+	
+	if (roll_data.roll_data.min == true) {
+		 child_preset_dice_reroll_min.attr('checked',true);
+	}
+	else {
+		child_preset_dice_reroll_min.removeAttr('checked');
+	}
+	
+	function preset_dice_range_change(event, range) {
+		bonus_dice_set(parseInt(range.value), copy);
+	}
+	child_preset_bonus_dice_slider.off('range:change', preset_dice_range_change).on('range:change', preset_dice_range_change);
+	app.range.setValue(child_preset_dice_bonus, roll_data.roll_data.bonus_dice);
+	child_preset_dice_bonus[0].value = roll_data.roll_data.bonus_dice;
+	bonus_dice_set(roll_data.roll_data.bonus_dice, copy);
+	
+	function preset_roll_range_change(event, range) {
+		bonus_roll_set(parseInt(range.value), copy);
+	}
+	child_preset_bonus_roll_slider.off('range:change', preset_roll_range_change).on('range:change', preset_roll_range_change);
+	app.range.setValue(child_preset_roll_bonus, roll_data.roll_data.bonus_roll);
+	child_preset_roll_bonus[0].value = roll_data.roll_data.bonus_roll;
+	bonus_roll_set(roll_data.roll_data.bonus_roll, copy);
+	
+	function preset_drophigh_range_change(event, range) {
+		drop_high_set(parseInt(range.value), copy);
+	}
+	child_preset_drophigh_slider.off('range:change', preset_drophigh_range_change).on('range:change', preset_drophigh_range_change);
+	app.range.setValue(child_preset_drophigh, roll_data.roll_data.drop_high);
+	child_preset_drophigh[0].value = roll_data.roll_data.drop_high;
+	drop_high_set(roll_data.roll_data.drop_high, copy);
+	
+	function preset_droplow_range_change(event, range) {
+		drop_low_set(parseInt(range.value), copy);
+	}
+	child_preset_droplow_slider.off('range:change', preset_droplow_range_change).on('range:change', preset_droplow_range_change);
+	app.range.setValue(child_preset_droplow, roll_data.roll_data.drop_low);
+	child_preset_droplow[0].value = roll_data.roll_data.drop_low;
+	drop_low_set(roll_data.roll_data.drop_low, copy);
+}
+
+function bonus_dice_set(val, base) {
+	var textval = "";
+	if (val >= 0) {
+		textval += "+";
+	}
+	textval += val + GetLocalizedString(" To Each Roll");
+	$$(base).find(".preset-bonus-dice-title").text(textval);
+}
+
+function bonus_roll_set(val, base) {
+	var textval = "";
+	if (val >= 0) {
+		textval += "+";
+	}
+	textval += val + GetLocalizedString(" To Final Sum");
+	$$(base).find(".preset-bonus-roll-title").text(textval);
+}
+
+function drop_high_set(val, base) {
+	var textval = "";
+	textval = GetLocalizedString("Drop ") + val + GetLocalizedString(" Highest Roll");
+	$$(base).find(".preset-drophigh-label").text(textval);
+}
+	
+function drop_low_set(val, base) {
+	var textval = "";
+	textval = GetLocalizedString("Drop ") + val + GetLocalizedString(" Lowest Roll");
+	$$(base).find(".preset-droplow-label").text(textval);
 }
 
 app.router.navigate("/first/", {"animate":false, "pushState":false, "history":false});
@@ -1199,6 +1508,14 @@ $$(document).on('page:init', function (e, page) {
 		$$(".reroll-max-title").text(GetLocalizedString("Reroll ") + save_data.current_roll[save_data.current_roll.length-1].roll_data.dice + GetLocalizedString("s"));
 	}
 	
+	if ($$("input[name='preset-detail-name']").length != 0) {
+		var preset_name = e.detail.route.query.presetname;
+		if (preset_name != undefined) {
+			InitPresetDetail(preset_name);
+		}
+	}
+	
+	
 	var first_page_settings = $$("input[name='first-page']");
 	if (first_page_settings.length !=0) {
 		for (var i = 0; i < first_page_settings.length; i++) {
@@ -1283,7 +1600,6 @@ function DoUpdateAndroidShortcuts() {
 			break;
 		}
 		var preset_data = save_data.presets[i];
-		console.log(preset_data);
 		var shortcut = {
 			id: preset_data.name,
 			shortLabel:  preset_data.name,
@@ -1314,7 +1630,6 @@ function DoUpdateAndroidShortcuts() {
 }
 
 function RunPreset(preset_name) {
-	console.log("RUN PRESET");
 	var preset = null;
 	for (var i = 0; i < save_data.presets.length; i++) {
 		if (save_data.presets[i].name == preset_name) {
@@ -1324,7 +1639,6 @@ function RunPreset(preset_name) {
 	}
 	if (preset != null) {
 		save_data.current_roll = JSON.parse(JSON.stringify(preset));
-		console.log("current_roll : " + JSON.stringify(save_data.current_roll));
 		if (mainView.router.currentRoute.url.includes("dicestats")) {
 			// because we don't actually "navigate" to dicestats in this case
 			// page-next will not be set and we need a hack to run RollDice in page:init
@@ -1335,7 +1649,6 @@ function RunPreset(preset_name) {
 			});
 		}
 		else {
-			console.log("NAVIGATE TO /dicestats/");
 			app.router.navigate("/dicestats/");
 		}
 	}
@@ -1350,7 +1663,6 @@ if (document != undefined) {
 		InitAdMob();
 		
 		if (window.plugins != undefined) {
-			console.log("Checking shortcuts.getIntent");
 			window.plugins.Shortcuts.getIntent(function(intent) {
 				console.log("get intent : " + JSON.stringify(intent.extras));
 				if (intent.extras != undefined && intent.extras["com.ombarus.dicedmfree.preset_name"] != undefined) {
@@ -1361,7 +1673,6 @@ if (document != undefined) {
 			})
 				
 			window.plugins.Shortcuts.onNewIntent(function(intent) {
-				console.log("On New Intent Fired ! " + JSON.stringify(intent.extras));
 				if (intent.extras != undefined && intent.extras["com.ombarus.dicedmfree.preset_name"] != undefined) {
 					var preset_name = intent.extras["com.ombarus.dicedmfree.preset_name"];
 					RunPreset(preset_name);
