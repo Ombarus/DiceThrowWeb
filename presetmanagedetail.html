@@ -1,0 +1,213 @@
+<div class="page" data-name="presetmanagedetail">
+	<div class="navbar">
+		<div class="navbar-inner sliding">
+		
+			<!--<a href="#" class="hback">HBACK</a>-->
+			
+			
+			<div class="left">
+				<a href="#" class="link back">
+					<i class="icon icon-back"></i>
+					<span class="ios-only"><lang>Back</lang></span>
+				</a>
+			</div>
+			<div class="title"><lang>Preset Details</lang></div>
+		</div>
+	</div>
+	
+	<div class="toolbar">
+		<div class="toolbar-inner">
+			<a href="/presetmanage/" class="link icon-only back cancel-preset">
+				<i class="icon f7-icons ios-only">close</i>
+				<i class="icon material-icons md-only">close</i>
+			</a>
+			<a href="/presetmanage/" class="link icon-only save-preset">
+				<i class="icon f7-icons ios-only save-preset">check</i>
+				<i class="icon material-icons md-only save-preset">done</i>
+			</a>
+		</div>
+	</div>
+	
+
+	<div class="page-content add-padding-bottom">
+		<div class="list">
+			<div class="list-group">
+				<ul>
+					<li class="list-group-title text-color-blue"><lang>Preset</lang></li>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label"><lang>Name</lang></div>
+								<div class="item-input-wrap">
+									<input name="preset-detail-name" type="text">
+									<input name="preset_detail-name-orig" type="hidden">
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		
+			<div class="list-group throw_data">
+				<ul>
+					<li class="item-content list-group-title text-color-blue" style="margin-right:0px;padding-right:0px">
+						<!--<div class="" style="margin-right:0px;padding-right:0px">-->
+							<lang class="throw-id item-inner">Throw 01</lang>
+							<a href="#" class="item-media delete-throw-confirm right">
+								<i class="icon f7-icons color-red ios-only delete-throw-confirm">close_round_fill</i>
+								<i class="icon material-icons color-red md-only delete-throw-confirm">cancel</i>
+							</a>
+						<!--</div>-->
+					</li>
+					<li>
+						<div class="item-content">
+							<div class="item-inner">
+								<div class="item-title">
+									<lang>Dice Faces</lang>
+								</div>
+								<div class="item-after">
+									<div class="stepper stepper-fill stepper-raised stepper-small stepper-init" data-wraps="true" data-autorepeat="true" data-autorepeat-dynamic="true" data-decimal-point="2" data-manual-input-mode="true">
+										<div class="stepper-button-minus"></div>
+										<div class="stepper-input-wrap">
+											<input name="preset-detail-dice-face" type="text" value="1" min="2" max="1000" step="1">
+										</div>
+										<div class="stepper-button-plus"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content">
+							<div class="item-inner">
+								<div class="item-title">
+									<lang>Dice Count</lang>
+								</div>
+								<div class="item-after">
+									<div class="stepper stepper-fill stepper-raised stepper-small stepper-init" data-wraps="true" data-autorepeat="true" data-autorepeat-dynamic="true" data-decimal-point="2" data-manual-input-mode="true">
+										<div class="stepper-button-minus"></div>
+										<div class="stepper-input-wrap">
+											<input name="preset-detail-dice-count" type="text" value="1" min="1" max="1000" step="1">
+										</div>
+										<div class="stepper-button-plus"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					
+					<li>
+						<div class="item-content">
+							<div class="item-inner">
+								<div class="item-title">
+									<span><lang class="preset-max-title">Reroll Max</lang></span>
+								</div>
+								<div class="item-after">
+									<label class="toggle toggle-init">
+										<input name="preset-dice-reroll-max" type="checkbox">
+										<span class="toggle-icon"></span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content">
+							<div class="item-inner">
+								<div class="item-title">
+									<lang>Reroll 1</lang>
+								</div>
+								<div class="item-after">
+									<label class="toggle toggle-init">
+										<input name="preset-dice-reroll-min" type="checkbox">
+										<span class="toggle-icon"></span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</li>
+					
+					
+					<li>
+						<div class="item-content">
+							<div class="item-inner">
+								<div class="item-title text-color-blue"><lang>Bonus / Malus</lang></div>
+							</div>
+						</div>
+						<ul>
+							<li class="item-content item-input">
+								<div class="item-inner">
+									<div class="item-title item-label">
+										<lang class="preset-bonus-dice-title">+0 To Each Roll</lang>
+									</div>
+									<div class="item-input-wrap">
+										<div class="preset-bonus-dice-slider range-slider" data-label="true">
+											<input name="preset-dice-bonus" type="range" value="0" min="-10" max="10" step="1">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="item-content item-input">
+								<div class="item-inner">
+									<div class="item-title item-label">
+										<lang class="preset-bonus-roll-title">+0 To Final Sum</lang>
+									</div>
+									<div class="item-input-wrap">
+										<div class="preset-bonus-roll-slider range-slider" data-label="true">
+											<input name="preset-roll-bonus" type="range" value="0" min="-10" max="10" step="1">
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+					
+					
+					<li class="preset-drop-root">
+						<div class="item-content">
+							<div class="item-inner">
+								<div class="item-title text-color-blue"><lang>Drop Dices</lang></div>
+							</div>
+						</div>
+						<ul>
+							<li class="item-content item-input drop-li">
+								<div class="item-inner">
+									<div class="item-title item-label">
+										<lang>Pre-Drop High</lang><lang class="preset-drophigh-label">Drop 0 Highest Roll</lang>
+									</div>
+									<div class="item-input-wrap">
+										<div class="preset-drophigh-slider range-slider" data-label="true">
+											<input name="preset-drophigh" type="range" value="0" min="0" max="10" step="1">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="item-content item-input drop-li">
+								<div class="item-inner">
+									<div class="item-title item-label">
+										<lang>Pre-Drop Low</lang><lang class="preset-droplow-label">Drop 0 Lowest Roll</lang>
+									</div>
+									<div class="item-input-wrap">
+										<div class="preset-droplow-slider range-slider" data-label="true">
+											<input name="preset-droplow" type="range" value="0" min="0" max="10" step="1">
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		
+		<div class="block">
+			<a href="#" class="col button button-fill button-round preset-add-roll">
+				<i class="icon f7-icons ios-only preset-add-roll">add</i>
+				<i class="icon material-icons md-only preset-add-roll">add</i>
+				<lang class="preset-add-roll">Roll</lang>
+			</a>
+		</div>
+		
+	</div>
+</div>

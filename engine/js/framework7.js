@@ -17144,6 +17144,8 @@
           range.params.value = [parseFloat(dataset.valueLeft), parseFloat(dataset.valueRight)];
         }
       }
+	  
+	  console.log("GB: value = " + range.params.value);
 
       var $inputEl;
       if (!range.params.dual) {
@@ -17161,6 +17163,7 @@
       var min = ref.min;
       var max = ref.max;
       var value = ref.value;
+	  console.log("GB2: ref.value = " + ref.value);
       Utils.extend(range, {
         $el: $el,
         el: $el[0],
@@ -17263,10 +17266,15 @@
         if (range.app.rtl) {
           progress = ((rangeOffsetLeft + range.rangeWidth) - touchesStart.x) / range.rangeWidth;
         } else {
+			console.log(touchesStart);
+			console.log(rangeOffsetLeft);
+			console.log(range.rangeWidth);
           progress = (touchesStart.x - rangeOffsetLeft) / range.rangeWidth;
         }
 
         var newValue = (progress * (range.max - range.min)) + range.min;
+		console.log("GB4: Progress = " + progress);
+		console.log(range);
         if (range.dual) {
           if (Math.abs(range.value[0] - newValue) < Math.abs(range.value[1] - newValue)) {
             dualValueIndex = 0;
@@ -17399,6 +17407,7 @@
       range.useModules();
 
       // Init
+	  console.log("call range.init()");
       range.init();
 
       return range;

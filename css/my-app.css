@@ -3,6 +3,10 @@ html {
 	touch-action: manipulation;
 }
 
+.add-padding-bottom {
+    padding-bottom: 70px;
+}
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;

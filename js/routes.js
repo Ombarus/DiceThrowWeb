@@ -90,6 +90,11 @@ var routes = [
 		url: './presetmanage.html',
 		name: 'presetmanage'
 	},
+	{
+		path: '/presetmanagedetail/',
+		url: './presetmanagedetail.html',
+		name: 'presetmanagedetail'
+	},
 	// History Management (see, clear)
 	{
 		path: '/historymanage/',
