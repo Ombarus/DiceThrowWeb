@@ -90,8 +90,6 @@ function MatchWithPreset(roll_data) {
 
 function ProcessClick(ev) {
 	var btn = $$(ev.target);
-	//btn = btn.parents("a");
-	console.log(btn);
 	// DEBUG ONLY
 	if (btn.hasClass("debug-command")) {
 		var t = btn.text();
@@ -764,7 +762,7 @@ function UpdateTheme() {
 	}
 }
 
-var initial_data = JSON.parse('{"version":12, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false, "show_ads":true, "result_page:":"stats"}}');
+var initial_data = JSON.parse('{"version":12, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false, "show_ads":true, "result_page":"stats"}}');
 save_data = app.form.getFormData("save.json");
 // APP HAS BEEN RELEASE. It is innacceptable to delete profile now !
 if (save_data == null || save_data.version == undefined || save_data.version < 9)
@@ -1057,7 +1055,6 @@ function DoSavePresetEdit() {
 		cur_data["roll_data"]["min"] = $$(child_preset_dice_reroll_min).is(':checked');
 		new_preset_data["roll_data"].push(JSON.parse(JSON.stringify(cur_data)));
 	}
-	//console.log(new_preset_data);
 	save_data.presets[preset_index] = JSON.parse(JSON.stringify(new_preset_data));
 	app.form.storeFormData("save.json", save_data);
 }
@@ -1121,14 +1118,6 @@ function InitPresetDetail(preset_name) {
 	}
 	
 	$$(root).hide();
-/*
-	var copy = null
-	var root = $$(".throw_data")[0];
-	for (var i = 0; i < 4; i++) {
-		copy = root.cloneNode(true);
-		root.append(copy);
-	}
-	*/
 }
 
 function set_all_preset_detail(copy, roll_data) {
@@ -1165,7 +1154,6 @@ function set_all_preset_detail(copy, roll_data) {
 		else {
 			$$(child_drop_root).show();
 		}
-		console.log($$(child_preset_drophigh));
 		$$(child_preset_drophigh)[0].max = count;
 		$$(child_preset_droplow)[0].max = count;
 		app.range.get(child_preset_drophigh_slider).max = count;
@@ -1669,10 +1657,8 @@ if (document != undefined) {
 		
 		if (window.plugins != undefined) {
 			window.plugins.Shortcuts.getIntent(function(intent) {
-				console.log("get intent : " + JSON.stringify(intent.extras));
 				if (intent.extras != undefined && intent.extras["com.ombarus.dicedmfree.preset_name"] != undefined) {
 					var preset_name = intent.extras["com.ombarus.dicedmfree.preset_name"];
-					console.log("preset_name = " + preset_name);
 					RunPreset(preset_name);
 				}
 			})
