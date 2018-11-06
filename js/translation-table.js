@@ -91,7 +91,16 @@ var translation_table = {
 		"More":"More",
 		"Back":"Back",
 		"History is Empty":"History is Empty",
-		"Choose Result Page":"Choose Result Page"
+		"Choose Result Page":"Choose Result Page",
+		"Preset Details": "",
+		"Name": "Name",
+		"Throw 01": "Throw 01",
+		"Dice Faces": "Dice Faces",
+		"Dice Count": "Dice Count",
+		"Roll": "Roll",
+		"Throw ": "Throw ",
+		"Preset": "Preset",
+		"Preset Details": "Preset Details"
 	},
 	"fr": {
 		"Settings":"Paramètres",
@@ -185,7 +194,15 @@ var translation_table = {
 		"More":"Plus",
 		"Back":"Retour",
 		"History is Empty":"L'historique est vide",
-		"Choose Result Page":"Page des résultats"
+		"Choose Result Page":"Page des résultats",
+		"Name": "Nom",
+		"Throw 01": "Lancer 01",
+		"Dice Faces": "Nombre de face(s)",
+		"Dice Count": "Nombre de dés",
+		"Roll": "Lancer",
+		"Throw ": "Lancer ",
+		"Preset": "Raccourci",
+		"Preset Details": "Détails"
 	},
 	"jp": {
 		"Settings":"設定",
@@ -279,7 +296,15 @@ var translation_table = {
 		"More":"もっと",
 		"Back":"戻る",
 		"History is Empty":"履歴空",
-		"Choose Result Page":"結果の最初のページ"
+		"Choose Result Page":"結果の最初のページ",
+		"Name": "名",
+		"Throw 01": "Throw 01",
+		"Dice Faces": "サイコロのタイプ",
+		"Dice Count": "サイコロ総数",
+		"Roll": "追加",
+		"Throw ": "第 ",
+		"Preset": "基本",
+		"Preset Details": "プリセットの詳細"
 	}
 	
 };
