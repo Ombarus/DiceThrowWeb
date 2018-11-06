@@ -1612,15 +1612,15 @@ if (document != undefined) {
 		
 		if (window.plugins != undefined) {
 			window.plugins.Shortcuts.getIntent(function(intent) {
-				if (intent.extras != undefined && intent.extras["com.ombarus.dicedmfree.preset_name"] != undefined) {
-					var preset_name = intent.extras["com.ombarus.dicedmfree.preset_name"];
+				if (intent.extras != undefined && intent.extras["com.ombarus.dicedm.preset_name"] != undefined) {
+					var preset_name = intent.extras["com.ombarus.dicedm.preset_name"];
 					RunPreset(preset_name);
 				}
 			})
 				
 			window.plugins.Shortcuts.onNewIntent(function(intent) {
-				if (intent.extras != undefined && intent.extras["com.ombarus.dicedmfree.preset_name"] != undefined) {
-					var preset_name = intent.extras["com.ombarus.dicedmfree.preset_name"];
+				if (intent.extras != undefined && intent.extras["com.ombarus.dicedm.preset_name"] != undefined) {
+					var preset_name = intent.extras["com.ombarus.dicedm.preset_name"];
 					RunPreset(preset_name);
 				}
 			})
