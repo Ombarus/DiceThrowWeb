@@ -9,11 +9,11 @@ function InitAdMob() {
 			//id: 'ca-app-pub-8275293921068244/9979789113', // official unit ID. DO NOT CLICK ADS !
 		});
 	}
-	else if(app.platform === "ios"){
+	else if(Framework7.device.ios){
 		window.admob.banner.config({
 			id: 'ca-app-pub-8275293921068244/5187261891'
 			//id: 'ca-app-pub-3940256099942544/6300978111', // dedicated test ad unit ID for Android banners
-			//id: 'ca-app-pub-8275293921068244/9979789113', // official unit ID. DO NOT CLICK ADS !
+			//id: 'ca-app-pub-8275293921068244/9979789113', // official (ios) unit ID. DO NOT CLICK ADS !
 		});
 	}
 	else {

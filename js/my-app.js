@@ -1255,7 +1255,8 @@ $$(document).on("page:reinit", function (page){
 	UpdatePresetList();
 });
 
-$$(document).on('page:init', function (e, page) {
+$$(document).on('page:init', function (e, page) {	
+	
 	if (page.$el.attr("data-name") == "dicestats" && (page.$el.hasClass("page-next") || isFromIntent == true) && save_data.current_roll[0].results.length <= 0) {
 		DoRollFromData();
 	}
