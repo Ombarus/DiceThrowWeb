@@ -723,12 +723,8 @@ function UpdateTheme() {
 	}
 }
 
-<<<<<<< HEAD
-
-var initial_data = JSON.parse('{"version":12, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false, "result_page:":"stats"}}');
-=======
 var initial_data = JSON.parse('{"version":12, "current_roll":[{"roll_data":{}, "results":[]}], "history":[], "presets":[], "settings":{"first_page":"dicetype", "show_roll_options":true, "show_tooltips":true, "sort_results":false, "language":"", "dark_theme":false, "show_ads":true, "result_page":"stats"}}');
->>>>>>> 53f1232... translation
+
 save_data = app.form.getFormData("save.json");
 // APP HAS BEEN RELEASE. It is innacceptable to delete profile now !
 if (save_data == null || save_data.version == undefined || save_data.version < 9)
