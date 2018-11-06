@@ -871,7 +871,6 @@ function UpdateHistoryList() {
 function PresetSortEvent(ev) {
 	var ifrom = ev.detail.from;
 	var ito = ev.detail.to;
-	console.log("Preset SORT event : " + ifrom + "(" + save_data.presets[ifrom].name + ")->" + ito + "(" + save_data.presets[ito].name + ")");
 	var tmp = save_data.presets[ifrom];
 	var tmp2 = save_data.presets[ifrom];
 	var direction = 1;
