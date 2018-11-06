@@ -89,8 +89,7 @@ function MatchWithPreset(roll_data) {
 }
 
 function ProcessClick(ev) {
-	var btn = $$(ev.target);
-	
+	var btn = $$(ev.target);	
 	////////////
 	if (btn.hasClass("save-preset")) {
 		DoSavePresetEdit();
@@ -1235,6 +1234,11 @@ $$(document).on('page:init', function (e, page) {
 		}
 	}
 	isFromIntent = false;
+	
+	if (mainView.router.currentRoute.url.includes("first")) {
+		mainView.router.clearPreviousHistory();
+	}
+	
 	function open_promp_click() {
 		app.dialog.create({
 			title: GetLocalizedString('Preset Name'),
@@ -1422,7 +1426,6 @@ $$(document).on('page:init', function (e, page) {
 	}
 	$$("#dice-side").off("formajax:success", side_ajax).on("formajax:success", side_ajax);
 	$$(document).off("click", "a", ProcessClick).on("click", "a", ProcessClick);
-	//$$("a").off("click").on("click", ProcessClick);
 	
 	if ($$("#title-options").length != 0) {
 		UpdateOptionsTitle();
