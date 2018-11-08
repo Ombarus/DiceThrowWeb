@@ -1138,7 +1138,7 @@ function set_all_preset_detail(copy, roll_data) {
 		bonus_dice_set(parseInt(range.value), copy);
 	}
 	child_preset_bonus_dice_slider.off('range:change', preset_dice_range_change).on('range:change', preset_dice_range_change);
-	app.range.setValue(child_preset_dice_bonus, roll_data.roll_data.bonus_dice);
+	app.range.setValue(child_preset_bonus_dice_slider, roll_data.roll_data.bonus_dice);
 	child_preset_dice_bonus[0].value = roll_data.roll_data.bonus_dice;
 	bonus_dice_set(roll_data.roll_data.bonus_dice, copy);
 	
@@ -1146,7 +1146,7 @@ function set_all_preset_detail(copy, roll_data) {
 		bonus_roll_set(parseInt(range.value), copy);
 	}
 	child_preset_bonus_roll_slider.off('range:change', preset_roll_range_change).on('range:change', preset_roll_range_change);
-	app.range.setValue(child_preset_roll_bonus, roll_data.roll_data.bonus_roll);
+	app.range.setValue(child_preset_bonus_roll_slider, roll_data.roll_data.bonus_roll);
 	child_preset_roll_bonus[0].value = roll_data.roll_data.bonus_roll;
 	bonus_roll_set(roll_data.roll_data.bonus_roll, copy);
 	
@@ -1154,7 +1154,7 @@ function set_all_preset_detail(copy, roll_data) {
 		drop_high_set(parseInt(range.value), copy);
 	}
 	child_preset_drophigh_slider.off('range:change', preset_drophigh_range_change).on('range:change', preset_drophigh_range_change);
-	app.range.setValue(child_preset_drophigh, roll_data.roll_data.drop_high);
+	app.range.setValue(child_preset_drophigh_slider, roll_data.roll_data.drop_high);
 	child_preset_drophigh[0].value = roll_data.roll_data.drop_high;
 	drop_high_set(roll_data.roll_data.drop_high, copy);
 	
@@ -1162,8 +1162,8 @@ function set_all_preset_detail(copy, roll_data) {
 		drop_low_set(parseInt(range.value), copy);
 	}
 	child_preset_droplow_slider.off('range:change', preset_droplow_range_change).on('range:change', preset_droplow_range_change);
-	app.range.setValue(child_preset_droplow, roll_data.roll_data.drop_low);
-	child_preset_droplow[0].value = roll_data.roll_data.drop_low;
+	console.log("app.range.setValue(drop_low) : " + roll_data.roll_data.drop_low);
+	app.range.setValue(child_preset_droplow_slider, roll_data.roll_data.drop_low);
 	drop_low_set(roll_data.roll_data.drop_low, copy);
 }
 
