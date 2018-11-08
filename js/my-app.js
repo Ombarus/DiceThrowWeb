@@ -1162,7 +1162,6 @@ function set_all_preset_detail(copy, roll_data) {
 		drop_low_set(parseInt(range.value), copy);
 	}
 	child_preset_droplow_slider.off('range:change', preset_droplow_range_change).on('range:change', preset_droplow_range_change);
-	console.log("app.range.setValue(drop_low) : " + roll_data.roll_data.drop_low);
 	app.range.setValue(child_preset_droplow_slider, roll_data.roll_data.drop_low);
 	drop_low_set(roll_data.roll_data.drop_low, copy);
 }
