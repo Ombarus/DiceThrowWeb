@@ -2,7 +2,7 @@
 const use_test = false;
 
 function InitAdMob() {
-	
+		
 	if (use_test) {
 		window.admob.banner.config({
 			id: 'ca-app-pub-3940256099942544/6300978111' // dedicated test ad unit ID for Android banners
