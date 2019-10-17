@@ -119,11 +119,11 @@ function ProcessClick(ev) {
 		
 		var child_preset_bonus_dice_slider = $$(copy).find(".preset-bonus-dice-slider");
 		var child_preset_dice_bonus = $$(copy).find("input[name='preset-dice-bonus']");
-		app.range.create({"el":child_preset_bonus_dice_slider, "inputEl":child_preset_dice_bonus, "label":true, "min":-10, "max":10});
+		app.range.create({"el":child_preset_bonus_dice_slider, "inputEl":child_preset_dice_bonus, "label":true, "min":-20, "max":20});
 		
 		var child_preset_bonus_roll_slider = $$(copy).find(".preset-bonus-roll-slider");
 		var child_preset_roll_bonus = $$(copy).find("input[name='preset-roll-bonus']");
-		app.range.create({"el":child_preset_bonus_roll_slider, "inputEl":child_preset_roll_bonus, "label":true, "min":-10, "max":10});
+		app.range.create({"el":child_preset_bonus_roll_slider, "inputEl":child_preset_roll_bonus, "label":true, "min":-20, "max":20});
 		
 		var child_preset_drophigh_slider = $$(copy).find(".preset-drophigh-slider");
 		var child_preset_drophigh = $$(copy).find("input[name='preset-drophigh']");
